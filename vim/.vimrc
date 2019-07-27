@@ -12,7 +12,8 @@ Plugin 'VundleVim/Vundle.vim'
 " Youcompleteme 依赖
 Plugin 'honza/vim-snippets'
 Plugin 'SirVer/ultisnips'
-Plugin 'scrooloose/syntastic'
+"Plugin 'scrooloose/syntastic'
+Plugin 'w0rp/ale'
 " 使用yaourt替代
 " YouCompleteMe
 "Plugin 'Valloric/YouCompleteMe'
@@ -32,7 +33,8 @@ Plugin 'vim-scripts/gdbmgr'
 " eclpise-like tasklist(TODO,XXX,FIXME and custom)
 Plugin 'chauncey-garrett/vim-tasklist'
 " 状态栏
-Plugin 'powerline/powerline'
+" Use pip install instead
+"Plugin 'powerline/powerline'
 " Git 辅助
 Plugin 'airblade/vim-gitgutter' 
 " Vim内Shell
@@ -41,12 +43,17 @@ Plugin 'oplatek/Conque-Shell'
 Plugin 'flazz/vim-colorschemes'
 " 自动切换头/源文件
 Plugin 'vim-scripts/a.vim'
+Plugin 'terryma/vim-multiple-cursors'
+
+Plugin 'jeaye/color_coded'
 
 filetype plugin indent on
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""" ColorScheme """""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "colorscheme solarized
-colorscheme molokai
+"colorscheme sublimemonokai 
+"colorscheme mycolor_molokai
+colorscheme mycolor_sublimemonokai
 "colorscheme 1989
 "colorscheme duoduo
 "colorscheme materialtheme
@@ -68,31 +75,43 @@ let g:solarized_termtrans =1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""vim基本格式设置"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 set encoding=utf-8
-set wildmenu "vim命令自动补全  
-set ruler "光标位置
-set number "显示行号
-set cursorline "高亮显示当前行
-set guioptions+=l "显示滚动条
-set expandtab "扩展tab为空格
+set wildmenu                    "vim命令自动补全  
+set ruler                       "光标位置
+set number                      "显示行号
+set cursorline                  "高亮显示当前行
+set cursorcolumn                "高亮显示当前列
+set guioptions+=l               "显示滚动条
+set expandtab                   "扩展tab为空格
 "set listchars=tab:>-,trail:-
 "set list lcs=tab:\┆\ 
-set tabstop=4 "tab=4×space
-set softtabstop=4 "4×space=tab
+set tabstop=4                   "tab=4×space
+set softtabstop=4               "4×space=tab
 set shiftwidth=4
-set scrolloff=4 "光标离上下还有三行时开始滚动屏幕
-set foldmethod=syntax "基于缩进或语法进行代码折叠
-set foldlevelstart=99   "默认不折叠
+set scrolloff=4                 "光标离上下还有三行时开始滚动屏幕
+set foldmethod=syntax           "基于缩进或语法进行代码折叠
+set foldlevelstart=99           "默认不折叠
 set clipboard+=unnamed          " 共享剪贴板 
 set magic                       " 搜索支持正则匹配
 set hlsearch                    " 高亮显示结果
 set incsearch                   " 在输入要搜索的文字时，vim会实时匹配
 set showmatch                   " 括号等显示配对
-set mouse=a     " 鼠标点击可以切换窗口
-"set runtimepath+=~/.vim/syntax  " 增加自定义的语法文件目录
+set mouse=a                     " 鼠标点击可以切换窗口
+set fdm=indent                  " 按照缩进识别折叠点
+"set runtimepath+=~/.vim/syntax " 增加自定义的语法文件目录
+"set ignorecase
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""vim快捷键设置""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let mapleader=""
 nmap <Leader>p "+p
+let mapleader="<C-e>"
+nmap <Leader>l :wincmd l<CR> 
+nmap <Leader>k :wincmd k<CR> 
+nmap <Leader>j :wincmd j<CR> 
+nmap <Leader>h :wincmd h<CR> 
+let mapleader=""
+nmap <C-b> :tabnext<CR>
+nmap <C-p> :tabprevious<CR>
+
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""" YCM Setting """"""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -129,6 +148,10 @@ highlight DebugTag ctermbg=124 ctermfg=white cterm=bold " 用于Debug的代码�
 "highlight YcmErrorLine cterm=standout 错误行
 highlight SpellBad ctermfg=red cterm=standout " 错误词
 "set g:ycmerrorsign="?"
+let g:ycm_server_python_interpreter='/usr/bin/python3'
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""" vim-snippets """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:UltiSnipsSnippetDirectories=["UltiSnips", "mysnippets"]
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""nerdcommenter""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "使用：  
@@ -169,7 +192,8 @@ let g:indentLine_setColors = 0
 "let g:indentLine_enabled = 0
 
 "映射到ctrl+i键 
-map <C-a> :IndentLinesToggle<CR> 
+"map <C-a> :IndentLinesToggle<CR> 
+"map <tab> :IndentLinesToggle<CR> 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""vim-javascipt""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:javascript_plugin_jsdoc = 1
@@ -206,7 +230,7 @@ func! Rungdb()
     elseif &filetype == 'cpp'
         exec "!g++ % -g -o %<"
         exec "!gdb ./%<"
-    elseif &filetype == 'nasm'
+    elseif &filetype == 'asm'
         exec "!nasm -f macho64 %"
         exec "!ld -macosx_version_min 10.7.0 -o %< %<.o"
         exec "!gdb %<"
@@ -218,6 +242,34 @@ func! Compile()
     exec "w"
     if &filetype == "c"
         exec "!gcc % -g -o %<"
+    endif
+endfunc
+
+map <C-F5> :call RunOnly()<CR><CR>
+func! RunOnly()
+    exec "w"
+    echo &filetype
+    if index(['c', 'cpp', 'asm'], &filetype) >= 0
+        if &filetype == "c"
+            exec "!gcc % -g -o %<"
+        elseif &filetype == 'cpp'
+            exec "!g++ % -g -o %<"   
+        elseif &filetype == 'asm'
+            exec "!nasm -f macho64 %"
+            exec "!ld -macosx_version_min 10.7.0 -o %< %<.o"   
+        endif
+        exec "!./%<"
+    elseif &filetype == 'markdown'
+        exec "!chromium %"
+    elseif &filetype == 'python'
+        exec "!python %"
+        exec "!read"
+    elseif &filetype == "sh"
+        exec "!bash %"
+        exec "!read"
+    elseif &filetype == "matlab"
+        exec "!octave %"
+        exec "!read"
     endif
 endfunc
 
@@ -261,3 +313,10 @@ source $VIMRUNTIME/ftplugin/man.vim
 " 定义:Man命令查看各类man信息的快捷键
 nmap <Leader>man :Man 3 <cword><CR>
 map <c-j> :ConqueTermSplit zsh<CR>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""" vim-multiple-cursors """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:multi_cursor_start_key='<C-d>'
+let g:multi_cursor_next_key='<C-d>'
+"let g:multi_cursor_skip_key='<C-kd>'
+"let g:multi_cursor_quit_key='<C-d>'
+
