@@ -1,0 +1,103 @@
+{
+    "env": {
+        "gcc_ver": "8.3.0",
+        "vc_ver": "14.15.26726",
+        "winsdk_ver": "10.0.17134.0"
+    },
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceRoot}",
+                "${workspaceRoot}/include"
+            ],
+            "defines": [],
+            "browse": {
+                "path": [
+                    "${workspaceRoot}",
+                    "${workspaceRoot}/include"
+                ],
+                "limitSymbolsToIncludedHeaders": true,
+                "databaseFilename": ""
+            },
+            "compilerPath": "/usr/bin/clang++",
+            "cStandard": "c11",
+            "cppStandard": "c++17"
+        }, 
+        {
+            "name": "Wine+CL",
+            "includePath": [
+                "${workspaceRoot}",
+                "${workspaceRoot}/include",
+                "/mnt/D/Program Files/VisualStudio/VC/Tools/MSVC/${env:vc_ver}/include",
+                "/mnt/D/Program Files/VisualStudio/VC/Tools/MSVC/${env:vc_ver}/atlmfc/include",
+                "/mnt/D/Program Files/VisualStudio/VC/Auxiliary/VS/include",
+                "/mnt/D/Windows Kits/10/Include/${env:winsdk_ver}/ucrt",
+                "/mnt/D/Windows Kits/10/Include/${env:winsdk_ver}/um",
+                "/mnt/D/Windows Kits/10/Include/${env:winsdk_ver}/shared",
+                "/mnt/D/Windows Kits/10/Include/${env:winsdk_ver}/winrt",
+                "/mnt/D/Windows Kits/10/Include/${env:winsdk_ver}/cppwinrt",
+                "/usr/include/_windowsHeaderLinks"
+            ],
+            "defines": [],
+            "intelliSenseMode": "msvc-x64",
+            "browse": {
+                "path1": [
+                    "${workspaceRoot}",
+                    "${workspaceRoot}/include",
+                    "/mnt/D/Program Files/VisualStudio/VC/Tools/MSVC/${env:vc_ver}/include",
+                    "/mnt/D/Program Files/VisualStudio/VC/Tools/MSVC/${env:vc_ver}/atlmfc/include",
+                    "/mnt/D/Program Files/VisualStudio/VC/Auxiliary/VS/include",
+                    "/mnt/D/Windows Kits/10/Include/${env:winsdk_ver}/ucrt",
+                    "/mnt/D/Windows Kits/10/Include/${env:winsdk_ver}/um",
+                    "/mnt/D/Windows Kits/10/Include/${env:winsdk_ver}/shared",
+                    "/mnt/D/Windows Kits/10/Include/${env:winsdk_ver}/winrt",
+                    "/mnt/D/Windows Kits/10/Include/${env:winsdk_ver}/cppwinrt",
+                    "/usr/include/_windowsHeaderLinks"
+                ],
+                "limitSymbolsToIncludedHeaders": true,
+                "databaseFilename": ""
+            },
+            "compilerPath": "/usr/bin/g++",
+            "cStandard": "c11",
+            "cppStandard": "c++17"
+        },
+        {
+            "name": "WineGcc",
+            "includePath": [
+                "${workspaceRoot}",
+                "/usr/include/wine/windows",
+                "/usr/include/c++/8.3.0",
+                "/usr/include/c++/8.3.0/x86_64-pc-linux-gnu",
+                "/usr/include/c++/8.3.0/backward",
+                "/usr/lib/gcc/x86_64-pc-linux-gnu/8.3.0/include",
+                "/usr/local/include",
+                "/usr/lib/gcc/x86_64-pc-linux-gnu/8.3.0/include-fixed",
+                "/usr/include",
+                "/usr/include/_windowsHeaderLinks/winegcc"
+            ],
+            "defines": [],
+            "intelliSenseMode": "gcc-x64",
+            "browse": {
+                "path": [
+                    "${workspaceRoot}",
+                    "/usr/include/wine/windows",
+                    "/usr/include/c++/8.3.0",
+                    "/usr/include/c++/8.3.0/x86_64-pc-linux-gnu",
+                    "/usr/include/c++/8.3.0/backward",
+                    "/usr/lib/gcc/x86_64-pc-linux-gnu/8.3.0/include",
+                    "/usr/local/include",
+                    "/usr/lib/gcc/x86_64-pc-linux-gnu/8.3.0/include-fixed",
+                    "/usr/include",
+                    "/usr/include/_windowsHeaderLinks/winegcc"
+                ],
+                "limitSymbolsToIncludedHeaders": true,
+                "databaseFilename": ""
+            },
+            "compilerPath": "/usr/bin/wineg++",
+            "cStandard": "c11",
+            "cppStandard": "c++17"            
+        }
+    ],
+    "version": 4
+}
